@@ -9,6 +9,7 @@ The process of inspecting, cleaning, transforming and modeling data with the goa
 
 
 ### Auto-managed tools:
+<<<<<<< HEAD:FreeCodeCamp/Data Analysis with Python/1 - Intro/Notes.md
 * Qlik
 * tableau
 * looker
@@ -28,10 +29,31 @@ The process of inspecting, cleaning, transforming and modeling data with the goa
 * Free or cheap
 * V. Powerful
 * Steep learning curve
+=======
+*Qlik
+*tableau
+*looker
+*zoho analytics
+*google analytics
+
+*Closed Source
+*Expensive
+*Limited
+*Easy to learn
+
+### Programming languages:
+*Python
+*R
+
+*Open Source
+*Free or cheap
+*V. Powerful
+*Steep learning curve
+>>>>>>> parent of 50c2a4f... Markdown fixes  in 1 - Intro/notes.md:1 - Intro/Notes.md
 
 ### Steps in the Data Analysis Cycle
-* Data Extraction
-* Data cleaning
-* Data Wrangling
-* Analysis
-* Action
+Data Extraction
+Data cleaning
+Data Wrangling
+Analysis
+Action
