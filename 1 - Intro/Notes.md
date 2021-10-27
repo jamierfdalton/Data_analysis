@@ -9,29 +9,29 @@ The process of inspecting, cleaning, transforming and modeling data with the goa
 
 
 ### Auto-managed tools:
-*Qlik
-*tableau
-*looker
-*zoho analytics
-*google analytics
+* Qlik
+* tableau
+* looker
+* zoho analytics
+* google analytics
 
-*Closed Source
-*Expensive
-*Limited
-*Easy to learn
+* Closed Source
+* Expensive
+* Limited
+* Easy to learn
 
 ### Programming languages:
-*Python
-*R
+* Python
+* R
 
-*Open Source
-*Free or cheap
-*V. Powerful
-*Steep learning curve
+* Open Source
+* Free or cheap
+* V. Powerful
+* Steep learning curve
 
 ### Steps in the Data Analysis Cycle
-Data Extraction
-Data cleaning
-Data Wrangling
-Analysis
-Action
+* Data Extraction
+* Data cleaning
+* Data Wrangling
+* Analysis
+* Action
