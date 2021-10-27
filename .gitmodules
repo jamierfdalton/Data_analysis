@@ -1,0 +1,3 @@
+[submodule "FreeCodeCamp/Data"]
+	path = FreeCodeCamp/Data
+	url = git@github.com:jamierfdalton/FreeCodeCamp-Pandas-Real-Life-Example.git

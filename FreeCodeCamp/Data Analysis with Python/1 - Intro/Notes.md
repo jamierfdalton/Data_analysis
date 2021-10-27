@@ -14,7 +14,7 @@ The process of inspecting, cleaning, transforming and modeling data with the goa
 * looker
 * zoho analytics
 * google analytics
-
+#### Pros/Cons of Automanaged Tools
 * Closed Source
 * Expensive
 * Limited
@@ -23,7 +23,7 @@ The process of inspecting, cleaning, transforming and modeling data with the goa
 ### Programming languages:
 * Python
 * R
-
+#### Pros/Cons of Programming Languages for Data Analysis
 * Open Source
 * Free or cheap
 * V. Powerful
