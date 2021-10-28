@@ -1,3 +1,6 @@
 [submodule "FreeCodeCamp/Data"]
 	path = FreeCodeCamp/Data
 	url = git@github.com:jamierfdalton/FreeCodeCamp-Pandas-Real-Life-Example.git
+[submodule "Books/PythonForDataAnalysis/pydata-book"]
+	path = Books/PythonForDataAnalysis/pydata-book
+	url = git@github.com:jamierfdalton/pydata-book.git
