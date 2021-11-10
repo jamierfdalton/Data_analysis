@@ -7,7 +7,6 @@ The process of inspecting, cleaning, transforming and modeling data with the goa
 2. Modeling Data - pandas, matplotlib
 3. Find Conclusions - 'turning data into information'
 
-
 ### Auto-managed tools:
 * Qlik
 * tableau
