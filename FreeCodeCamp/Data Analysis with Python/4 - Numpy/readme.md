@@ -148,4 +148,36 @@ These operations can be applied per axis like so in multidimensional arrays:
 * B.std(axis=0) => returns the standard deviation of the vertical axis of a multidimensional array as a new array
 * B.var(axis=0) => returns the variance of the vertical axis of a multidimensional array as a new array
 
-axis=1 will do the same thing but horizontally, for arrays with more than 2 dimensions you can just continue to increase the y in axis=y
+axis=1 will do the same thing but horizontally. For arrays with more than 2 dimensions you can just continue to increase the y in axis=y
+
+### Broadcasting and Vectorized operations
+So everything we've seen so far can be done in Python arrays and you might think, why do I need a whole new library to work do this. Broadcasting and Vectorized operations are a (or maybe 'the') fundamental advantage of NumPy over standard python array operations.
+
+These broadcast operations apply the same operation to the whole array. So, for example;
+* a = np.arange(4) == array[0,1,2,3]
+* a + 10 == array[10,11,12,13]
+  * as you can see, this broadcast operation added 10 every element in the array 'a'
+* a * 10 == array[0, 10, 20 , 30]
+  * Similarly, this broadcast operation multiplied every element by 10.
+
+These broadcast operations are extremely well optimised, so they are very useful for high performance work.
+It is useful to note here that these operations return new arrays. 'a' still returns array([0,1,2,3]). The broadcast operations haven't changed the original array but are returning new arrays.
+If you want to override this behaviour you can use +=, *=, etc.
+* a *= 100 = array([0, 100, 200, 300])
+  * so now: a == array([0, 100, 200, 300])
+
+These operations are not limited to integers or floats, but can also apply an array of operations to another array. < That's horribly written, but I know what I mean. Do you???
+Here's an example of vectorized operations:
+* a = arange(4)
+* a == array[0,1,2,3]
+* b = np.array[(10,10,10,10)]
+* a + b == array[(10,11,12,13)]
+  * as you can see, when we add a and b together, the first element of each array are added together, the second element of each array is added together and so on and so forth.
+
+You can do the same thing with multiplication:
+* Using the same a and b arrays
+* a * b == array[(0, 10, 20, 30)]
+
+NOTE: in order to do vectorized operations, the two relevant arrays must line up. For example, you can't multiply a 7 item array by a 25 item array. It returns "ValueError: operands could not be broadcast together with shapes (7,) (25,)"
+
+### Boolean Arrays
