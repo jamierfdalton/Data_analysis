@@ -224,3 +224,9 @@ So obviously we don't usually manually select data from large datasets. This is 
   * Now to filter only the results in A that are greater than 30 we can do the following:
     * A[ A>30 ] == array([44, 83, 31, 46, 74, 47, 52, 62, 68, 73, 38, 87, 71, 78, 92])
     * Note that this creates a single array of the results of the query. It does not retain the shape of the original matrix.
+
+### Linear Algebra and NumPy
+#### There are inbuilt functions for various linear algebra functions in NumPy. This is an area which was virtually skipped over in the lecture so I should do some extracurricular work on this.
+
+### Useful NumPy functions
+#### This is in the jupyter notebook.
