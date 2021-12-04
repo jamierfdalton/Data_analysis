@@ -180,4 +180,21 @@ You can do the same thing with multiplication:
 
 NOTE: in order to do vectorized operations, the two relevant arrays must line up. For example, you can't multiply a 7 item array by a 25 item array. It returns "ValueError: operands could not be broadcast together with shapes (7,) (25,)"
 
-### Boolean Arrays
+### Boolean Arrays (aka masks)
+Another way to select elements from an array is to use a boolean array:
+* a = np.arange(5)
+  * a == array([0,1,2,3,4])
+If we wanted to select the first, second and fourth elements, we could do the following:
+* a[[True, True, False, True, False]] == array([0,1,3])  
+This is the same as doing a[[0,1,3]]
+
+So why would this be useful? Boolean arrays are the output of some array operations in NumPy.
+For example:
+* a >= 2 == array([False, False, True, True, True])
+Obviously this is really useful because you can pick out elements of an array that have certain conditions.
+An easy way to do this is by combining the Boolean operation with the Boolean element selection described above. This will look like this:
+* a[a>=2]
+  * expanding this out step by step:
+  * a[array([False, False, True, True, True])] == array([2,3,4])
+
+This means that you 
