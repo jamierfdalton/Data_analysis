@@ -197,4 +197,30 @@ An easy way to do this is by combining the Boolean operation with the Boolean el
   * expanding this out step by step:
   * a[array([False, False, True, True, True])] == array([2,3,4])
 
-This means that you 
+By combining boolean operations with other array operations you can do a lot of cool stuff. For instance if you wanted to return all the elements that are greater than the mean of the array you could do this:
+* a[a > a.mean()]
+  * expanding out step by step:
+  * a[a > 2.0] == array([3,4]) (because 3 and 4 are the only elements in 'a' that are larger than the mean of the elements in the array(2.0))
+
+You can also use boolean operators like and (&) and or (|) to combine boolean operations like so:
+* a[(a == 0 | a == 1)] == array([0,1])
+  * this gets elements in a where they are equal to 0 or 1
+
+So obviously we don't usually manually select data from large datasets. This is an example of the same filtering principles used on a larger matrix:
+* A = np.random.randint(100, size=(5,5))
+  * A == array([
+       [44, 83, 31, 46, 74],
+       [47, 52, 11, 62,  2],
+       [24, 18, 68, 73, 25],
+       [38, 87, 71, 78, 14],
+       [12,  9, 92,  4,  2]])
+* A > 30 (This will generate a boolean array of the positions in A that contain elements greater than 30)
+  * A > 30 == array([
+       [ True,  True,  True,  True,  True],
+       [ True,  True, False,  True, False],
+       [False, False,  True,  True, False],
+       [ True,  True,  True,  True, False],
+       [False, False,  True, False, False]])
+  * Now to filter only the results in A that are greater than 30 we can do the following:
+    * A[ A>30 ] == array([44, 83, 31, 46, 74, 47, 52, 62, 68, 73, 38, 87, 71, 78, 92])
+    * Note that this creates a single array of the results of the query. It does not retain the shape of the original matrix.
