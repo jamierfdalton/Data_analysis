@@ -141,3 +141,68 @@ Modifying series uses a familiar syntax:
               United Kingdom     64.511
               United States     278.000
               Name: G7 Population in Millions, dtype: float64
+
+### Pandas Dataframes
+Wildly innacurrately but useful in terms of learning, a dataframe is kinda like an excel table. In fact dataframes are often created from .csv files.
+
+A dataframe column is basically made up of pandas series. This means that dataframes have indices like a python list.
+
+df = pd.DataFrame({
+  'Population': [35.333, 63.345, 80.94, 60.2123, 127.998, 64.123, 318.666],
+  'GDP' : [17173664,12321345,12334555,11334343,555545456,213123123,56564565],
+  'Continent': ['America', 'Europe', 'Europe', 'Europe', 'Asia', 'Europe', 'America']
+  }, columns=['Population', 'GDP', 'Continent']
+)
+Note that DataFrame has a capital D and a capital F!
+
+You can name the indexes in the same way as you can in a Series
+* df.index = ['Canada', 'France', 'Germany', 'Italy', 'Japan', 'United Kingdom', 'United States']
+
+#### Commonly used DataFrame Methods
+* df.info
+  * Gives information on structure of the DataFrame including memory usage
+* df.size
+  * Gives the number of elements in the DataFrame
+* df.shape
+  * Gives the number of rows and columns in the DataFrame
+* df.describe
+  * Gives the result of some basic mathematical operations on numeric columns (i.e. not objects!) in the DataFrame
+* df.dtypes
+  * Returns the type of the columns of the columns
+
+#### Indexes, Selections and Slicing data in a DataFrame
+* df.loc['Canada']
+  * select the row by its text index
+* df.iloc[0]
+  * select the row by its numeric index (position)
+* df['Population']
+  * Select the relevant column
+All of the above methods for selecting data from a DataFrame returns a Series!
+
+Slicing works in the same way as above with the same caveat as for Series in that a slice in Pandas includes the Upper Limit (unlike a python list)
+
+* df.loc['France':'Italy'] ==          
+                 Population       GDP Continent
+        France      63.3450  12321345    Europe
+        Germany     80.9400  12334555    Europe
+        Italy       60.2123  11334343    Europe
+
+* df.loc['France':'Italy', 'Population'] ==
+        France     63.3450
+        Germany    80.9400
+        Italy      60.2123
+        Name: Population, dtype: float64
+* df.loc['France':'Italy', ['Population', 'GDP']] ==
+                 Population       GDP
+        France      63.3450  12321345
+        Germany     80.9400  12334555
+        Italy       60.2123  11334343
+
+iloc is very similar to multi-indexing in Series.
+* df.iloc[[0, 2, 3] ==
+                 Population       GDP Continent
+        Canada      35.3330  17173664   America
+        Germany     80.9400  12334555    Europe
+        Italy       60.2123  11334343    Europe
+
+The tutorial recommends always using loc and iloc to select rows and the nake dataframe to select columns in order to reduce ambiguity in your code
