@@ -35,7 +35,7 @@
 * Correlation analysis can be done with sales.corr() which returns a value between 0 and 1 for how strongly correlated the values in the columns are.
 * Correlation analysis can be output to a matrix for visualisation using matplotlib. (More in depth in the data visualisation lesson)
 
-### Creating a new column from Existing columns
+### Creating a new column from existing columns
 
 * In order to make a Calculated Revenue column from the existing Cost column and Profit Column, the syntax is very straight forward:
     * sales['Calulated_Revenue'] = sales['Cost'] + sales['Profit'] (Revenue = Cost + Profit) where Calulated_Revenue is the name of the new column and Cost and Profit are both existing columns
