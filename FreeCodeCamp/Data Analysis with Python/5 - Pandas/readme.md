@@ -206,3 +206,144 @@ iloc is very similar to multi-indexing in Series.
         Italy       60.2123  11334343    Europe
 
 The tutorial recommends always using loc and iloc to select rows and the nake dataframe to select columns in order to reduce ambiguity in your code
+
+#### Conditional Selection
+Conditional selection works in a similar way to series.
+
+For example if we wanted to select data for all the countries that have a population greater than 70 (in mySQL this would look something like SELECT * WHERE 'Population' > 70)
+
+First of all, we create a boolean series that checks that conditional:
+* df['Population'] > 70 ==
+    Canada            False
+    France            False
+    Germany            True
+    Italy             False
+    Japan              True
+    United Kingdom    False
+    United States      True
+    Name: Population, dtype: bool
+
+We can use this boolean series in a .loc selection to get the data for the rows that fulfil the conditional.
+* df.loc[df['Population'] > 70] ==
+                   Population        GDP Continent
+    Germany            80.940   12334555    Europe
+    Japan             127.998  555545456      Asia
+    United States     318.666   56564565   America
+
+If you just want certain columns, you can do this in the way you normally would using .loc
+* df.loc[df['Population'] > 70, ['Population', 'GDP']] ==
+                   Population        GDP
+    Germany            80.940   12334555
+    Japan             127.998  555545456
+    United States     318.666   56564565
+
+#### Dropping
+The opposite of selection is to drop. Instead of looking for a certain row, you can ask pandas to return to you all the rows except the ones you specify. This is down with the .drop method.
+
+* df.drop('Canada') ==
+                    Population        GDP Continent
+    France             63.3450   12321345    Europe
+    Germany            80.9400   12334555    Europe
+    Italy              60.2123   11334343    Europe
+    Japan             127.9980  555545456      Asia
+    United Kingdom     64.1230  213123123    Europe
+    United States     318.6660   56564565   America
+
+#### Operations in series
+Operations in series work at a column level, broadcasting down the rows.
+
+In this example we are creating a new series called 'crisis'
+* crisis = pd.Series([-20,-1000000], index=['Population', 'GDP'])
+
+Currently our dataframe for those two columns looks like this:
+* df[['Population', 'GDP']] ==
+                      Population        GDP
+      Canada             35.3330   17173664
+      France             63.3450   12321345
+      Germany            80.9400   12334555
+      Italy              60.2123   11334343
+      Japan             127.9980  555545456
+      United Kingdom     64.1230  213123123
+      United States     318.6660   56564565
+
+Now let us apply crisis to the DataFrame above:
+* df[['Population', 'GDP']] + crisis ==
+                      Population        GDP
+      Canada             15.3330   16173664
+      France             43.3450   11321345
+      Germany            60.9400   11334555
+      Italy              40.2123   10334343
+      Japan             107.9980  554545456
+      United Kingdom     44.1230  212123123
+      United States     298.6660   55564565
+
+We can see that the GDP column have been decreased by 1,000,000 and the population column have all decreased by 20!
+
+### Modifying DataFrames
+None of the operations that we've done so far have had any effect on the underlying DataFrames. They are returning new DataFrames. This is because these operations are 'immutable'
+
+One quick way to modify a DataFrame is simply to save the results of your operation in a variable. If you want to get rid of the old data and just use the new DataFrame you can always use your original variable name.
+* df2 = df + crisis ==  
+                     Continent          GDP  Population
+      Canada               NaN   16173664.0     15.3330
+      France               NaN   11321345.0     43.3450
+      Germany              NaN   11334555.0     60.9400
+      Italy                NaN   10334343.0     40.2123
+      Japan                NaN  554545456.0    107.9980
+      United Kingdom       NaN  212123123.0     44.1230
+      United States        NaN   55564565.0    298.6660
+
+#### Explicit Modification
+Say we wanted to add a column to df. We can create a series for the new column like normal:
+* lang = pd.Series(['French','German','Italian'], index=['France', 'Germany', 'Italy'], name='Language')
+  * lang ==
+        France      French
+        Germany     German
+        Italy      Italian
+        Name: Language, dtype: object
+
+We can simply add this series to df with the following syntax:
+* df['Language'] = lang
+  * now df ==
+                      Population        GDP Continent Language
+      Canada             35.3330   17173664   America      NaN
+      France             63.3450   12321345    Europe   French
+      Germany            80.9400   12334555    Europe   German
+      Italy              60.2123   11334343    Europe  Italian
+      Japan             127.9980  555545456      Asia      NaN
+      United Kingdom     64.1230  213123123    Europe      NaN
+      United States     318.6660   56564565   America      NaN
+
+Note that the lang series did not have indexes that matched every row in the DataFrame, but this did not matter. Pandas was smart enough to apply the contents in the relevant rows.
+
+If you want to change all the values in a column, the syntax is similar to adding the series above:
+* df['Language'] = 'English'
+  * df ==
+                      Population        GDP Continent Language
+      Canada             35.3330   17173664   America  English
+      France             63.3450   12321345    Europe  English
+      Germany            80.9400   12334555    Europe  English
+      Italy              60.2123   11334343    Europe  English
+      Japan             127.9980  555545456      Asia  English
+      United Kingdom     64.1230  213123123    Europe  English
+      United States     318.6660   56564565   America  English
+
+##### Usually if there is an '=' symbol you are changing the underlying data not creating a new DataFrame as when you broadcast an operation.
+
+To rename a column you can use the Pandas .rename method. Remember that the rename method is immutable so it doesn't change the underlying DataFrame but returns a new one instead.
+
+* df.rename(
+    columns={'GDP': 'Gross Domestic Product', 'HDI': 'Human Development Index'},
+    index={'United States': 'US', 'United Kingdom': 'UK', 'Neverland':'Was never here'}
+    )
+    * This returns a new DataFrame that looks like this:
+               Population  Gross Domestic Product Continent Language
+      Canada      35.3330                17173664   America  English
+      France      63.3450                12321345    Europe  English
+      Germany     80.9400                12334555    Europe  English
+      Italy       60.2123                11334343    Europe  English
+      Japan      127.9980               555545456      Asia  English
+      UK          64.1230               213123123    Europe  English
+      US         318.6660                56564565   America  English
+
+Note that even where we try to rename columns or indexes that do not exist in the original DataFrame, this doesn't throw a error, it just continues on. 
