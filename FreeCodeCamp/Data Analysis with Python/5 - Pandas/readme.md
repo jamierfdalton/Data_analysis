@@ -346,4 +346,128 @@ To rename a column you can use the Pandas .rename method. Remember that the rena
       UK          64.1230               213123123    Europe  English
       US         318.6660                56564565   America  English
 
-Note that even where we try to rename columns or indexes that do not exist in the original DataFrame, this doesn't throw a error, it just continues on. 
+Note that even where we try to rename columns or indexes that do not exist in the original DataFrame, this doesn't throw a error, it just continues on.
+
+#### Creating Columns from other columns
+You can perform operations on some columns in order to create new series and assign that series to a brand new columns in Pandas.
+* df['GDP per Capita'] = df['GDP'] / df['Population']
+  *   df ==           Population        GDP Continent Language  GDP per Capita
+      Canada             35.3330   17173664   America  English    4.860517e+05
+      France             63.3450   12321345    Europe  English    1.945117e+05
+      Germany            80.9400   12334555    Europe  English    1.523913e+05
+      Italy              60.2123   11334343    Europe  English    1.882397e+05
+      Japan             127.9980  555545456      Asia  English    4.340267e+06
+      United Kingdom     64.1230  213123123    Europe  English    3.323661e+06
+      United States     318.6660   56564565   America  English    1.775042e+05
+
+### Importing Data
+There are multiple methods for reading data from external sources that can be found in the I/O Documentation:
+https://pandas.pydata.org/pandas-docs/stable/user_guide/io.html
+
+Some common examples are;
+* pandas.read_csv
+* pandas.read_json
+* pandas.read_xml
+* pandas.read_html
+
+Using simply passing the file to pd.read_csv will load the contents of the file as a DataFrame like so:
+
+* df = pd.read_csv('~/github/Data_analysis/FreeCodeCamp/Data Analysis with Python/data/btc-market-price.csv')
+
+* df.head() ==
+       2017-04-02 00:00:00  1099.169125
+    0  2017-04-03 00:00:00  1141.813000
+    1  2017-04-04 00:00:00  1141.600363
+    2  2017-04-05 00:00:00  1133.079314
+    3  2017-04-06 00:00:00  1196.307937
+    4  2017-04-07 00:00:00  1190.454250
+We can see that Pandas has automatically chosen the first line of the csv to be the header. In this case, this is wrong as the first line in the file is actual data. We can fix this with header=None
+
+* df = pd.read_csv('~/github/Data_analysis/FreeCodeCamp/Data Analysis with Python/data/btc-market-price.csv', header=None)
+
+* df.head()
+                         0            1
+    0  2017-04-02 00:00:00  1099.169125
+    1  2017-04-03 00:00:00  1141.813000
+    2  2017-04-04 00:00:00  1141.600363
+    3  2017-04-05 00:00:00  1133.079314
+    4  2017-04-06 00:00:00  1196.307937
+
+Now the data is correctly indexed, and pandas has assigned the columns an index as well.
+To give the columns a name we can use the following:
+* df.columns = ['Timestamp', 'Price']
+NOTE Be careful with this. If we don't first use header=None, the columns method will overwrite the first line of data!
+
+
+* df.head()
+                   Timestamp        Price
+      0  2017-04-02 00:00:00  1099.169125
+      1  2017-04-03 00:00:00  1141.813000
+      2  2017-04-04 00:00:00  1141.600363
+      3  2017-04-05 00:00:00  1133.079314
+      4  2017-04-06 00:00:00  1196.307937
+
+Now we can see the columns are named Timestamp and Price.
+
+If we examine df with df.info() we get the following output:
+<class 'pandas.core.frame.DataFrame'>
+RangeIndex: 365 entries, 0 to 364
+Data columns (total 2 columns):
+ #   Column     Non-Null Count  Dtype  
+---  ------     --------------  -----  
+ 0   Timestamp  365 non-null    object
+ 1   Price      365 non-null    float64
+dtypes: float64(1), object(1)
+memory usage: 5.8+ KB
+
+We can see that the 'Timestamp' column has a datatype of Object. This is of course incorrect, but we can fix it easily with
+* pd.to_datetime(df['Timestamp']).head() ==
+  * 0   2017-04-02
+    1   2017-04-03
+    2   2017-04-04
+    3   2017-04-05
+    4   2017-04-06
+    Name: Timestamp, dtype: datetime64[ns]
+
+Of course as we know, when applying operations, Pandas tends to return a new Series or DataFrame instead of modifying the existing ones. In order to make this change permanent we can edit the column like we would in any other operation:
+* df['Timestamp'] = pd.to_datetime(df['Timestamp'])
+* So now df.info() ==
+  * <class 'pandas.core.frame.DataFrame'>
+    RangeIndex: 365 entries, 0 to 364
+    Data columns (total 2 columns):
+     #   Column     Non-Null Count  Dtype         
+    ---  ------     --------------  -----         
+     0   Timestamp  365 non-null    datetime64[ns]
+     1   Price      365 non-null    float64       
+    dtypes: datetime64[ns](1), float64(1)
+    memory usage: 5.8 KB
+
+Finally we might want to make the Timestamp column be the index for the DataFrame so we can easily get the pricing information by date. To do this we use .set_index
+* df.set_index('Timestamp', inplace=True)
+* df.head() ==
+  *                   Price
+    Timestamp              
+    2017-04-02  1099.169125
+    2017-04-03  1141.813000
+    2017-04-04  1141.600363
+    2017-04-05  1133.079314
+    2017-04-06  1196.307937
+
+Now in total we have read the csv, told read_csv not to infer headers, given the columns their names, set 'Timestamp' to be the index and parsed the 'Timestamp' object as a date in several lines of code.
+
+However, the read_csv function can actually do all this in a simgle command:
+* df2 = pd.read_csv(
+    '~/github/Data_analysis/FreeCodeCamp/Data Analysis with Python/data/btc-market-price.csv',
+    header=None,
+    names=['Timestamp', 'Prices'],
+    index_col=0,
+    parse_dates=True)
+
+* df2.head() ==
+  *                  Prices
+        Timestamp              
+        2017-04-02  1099.169125
+        2017-04-03  1141.813000
+        2017-04-04  1141.600363
+        2017-04-05  1133.079314
+        2017-04-06  1196.307937
