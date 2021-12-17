@@ -76,3 +76,6 @@ Another way to get all a series or DataFrame wihout the null values is .dropna()
 * eg.dropna() == eg[eg.notnull()]
 
 Finally remember that all of these functions and methods are immutable. We are not changing the underlying data, but instead returning a new Series or DataFrame!
+
+### Data Cleaining with Dataframes
+All of the methods and functions that we've been using to clean Series also work with DataFrames and the basic structure for figuring out how many null values we have in a given DataFrame is very similar to how we do it in a series.
