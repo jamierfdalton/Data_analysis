@@ -143,7 +143,7 @@ Modifying series uses a familiar syntax:
               Name: G7 Population in Millions, dtype: float64
 
 ### Pandas Dataframes
-Wildly innacurrately but useful in terms of learning, a dataframe is kinda like an excel table. In fact dataframes are often created from .csv files.
+Wildly inacurrately but useful in terms of learning, a dataframe is kinda like an excel table. In fact dataframes are often created from .csv files.
 
 A dataframe column is basically made up of pandas series. This means that dataframes have indices like a python list.
 
@@ -205,7 +205,7 @@ iloc is very similar to multi-indexing in Series.
         Germany     80.9400  12334555    Europe
         Italy       60.2123  11334343    Europe
 
-The tutorial recommends always using loc and iloc to select rows and the nake dataframe to select columns in order to reduce ambiguity in your code
+The tutorial recommends always using loc and iloc to select rows and the naked dataframe to select columns in order to reduce ambiguity in your code
 
 #### Conditional Selection
 Conditional selection works in a similar way to series.
